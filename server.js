@@ -3,9 +3,9 @@ projectData = {};
 
 // Require Express to run server and routes
 const express = require('express')
-const app = express()
 
 // Start up an instance of app
+const app = express()
 
 /* Middleware*/
 const bodyParser = require('body-parser')
@@ -23,10 +23,31 @@ app.use(express.static('website'));
 
 
 // Setup Server
-const port = 3000;
-
+const port = 8000;
+/* Spin up the server*/
 const server = app.listen(port, listening);
-function listening(){
-// console.log(server);
-console.log(`running on localhost: ${port}`);
+ function listening(){
+  // console.log(server);
+  console.log(`running on localhost: ${port}`);
+};
+
+
+
+// GET method route
+app.get('/all', sendData);
+
+function sendData (request, response) {
+  response.send(projectData);
+};
+
+
+// POST method route
+const data = []
+
+app.post('/add', callBack);
+
+function callBack(req,res){
+  data.push(req.body);
+  res.send('POST received');
+  console.log(data);
 };
