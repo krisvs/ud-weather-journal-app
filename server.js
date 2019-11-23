@@ -41,13 +41,14 @@ function sendData (request, response) {
 };
 
 
-// POST method route
-const data = []
+app.post('/add', function (req, res) {  
 
-app.post('/add', callBack);
-
-function callBack(req,res){
-  data.push(req.body);
-  res.send('POST received');
-  console.log(data);
-};
+  newEntry = {
+      temperature: req.body.temperature,
+      date: req.body.date,
+      userResponse: req.body.userResponse
+  }
+  //let key = Math.random().toString(36).substring(7);
+  projectData[key] = (newEntry)
+  console.log(projectData)
+});
