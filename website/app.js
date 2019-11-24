@@ -6,8 +6,7 @@ document.getElementById('generate').addEventListener('click', performAction);
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
-
+let newDate = (d.getMonth()+1) + '.' + d.getDate() + '.' + d.getFullYear();
 
 function performAction(e){
   const zipCode = document.getElementById('zip').value;
@@ -17,10 +16,26 @@ function performAction(e){
 
   .then(function(data) {
     postData('/add', {temperature: data.main.temp, date: newDate, userResponse: userFeelings});
-   
+    updateUi()
   })
 }
 
+
+// Update UI
+const updateUi = async () => {
+  const request = await fetch('/all');
+  try {
+    const allData = await request.json();
+    console.log(allData);
+    document.getElementById('date').innerHTML = allData.date;
+    document.getElementById('temp').innerHTML = allData.temperature;
+    document.getElementById('content').innerHTML = allData.userResponse;
+  } catch(error) {
+    console.log('error', error);
+  }
+}
+
+// Get Weather API data
 const weatherData = async (baseURL, zipCode, key)=>{
 
   const res = await fetch(baseURL+zipCode+key)
@@ -30,15 +45,12 @@ const weatherData = async (baseURL, zipCode, key)=>{
     return data;
   }  catch(error) {
     console.log("error", error);
-    // appropriately handle the error
   }
 }
 
 
-
-
 const postData = async ( url = '', data = {})=>{
-  console.log(data);
+    console.log(data);
     const response = await fetch(url, {
     method: 'POST', 
     credentials: 'same-origin',
@@ -57,5 +69,3 @@ const postData = async ( url = '', data = {})=>{
     console.log('error', error);
   }
 }
-
-

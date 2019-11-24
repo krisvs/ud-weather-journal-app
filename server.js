@@ -21,7 +21,6 @@ app.use(cors());
 // Initialize the main project folder
 app.use(express.static('website'));
 
-
 // Setup Server
 const port = 8000;
 /* Spin up the server*/
@@ -31,16 +30,12 @@ const server = app.listen(port, listening);
   console.log(`running on localhost: ${port}`);
 };
 
-
-
 // GET method route
-app.get('/all', sendData);
-
-function sendData (request, response) {
+app.get('/all', function (request, response) {
   response.send(projectData);
-};
+});
 
-
+// POST method route
 app.post('/add', function (req, res) {  
 
   newEntry = {
@@ -48,7 +43,8 @@ app.post('/add', function (req, res) {
       date: req.body.date,
       userResponse: req.body.userResponse
   }
-  //let key = Math.random().toString(36).substring(7);
-  projectData[key] = (newEntry)
+
+  projectData = (newEntry)
+  res.send(projectData);
   console.log(projectData)
 });
